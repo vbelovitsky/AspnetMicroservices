@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using System.Collections.Generic;
 
-namespace Catalog.API.Data
+namespace Catalog.API.Data.Mongo
 {
     public class CatalogContextSeed
     {
@@ -13,7 +13,7 @@ namespace Catalog.API.Data
             if (productExist)
                 return;
 
-            productCollection.InsertManyAsync(GetPreconfiguredProducts());
+            productCollection.InsertMany(GetPreconfiguredProducts());
         }
 
         private static IEnumerable<Product> GetPreconfiguredProducts()

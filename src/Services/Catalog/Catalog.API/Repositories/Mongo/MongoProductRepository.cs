@@ -1,17 +1,18 @@
-﻿using Catalog.API.Data;
+﻿using Catalog.API.Data.Mongo.Interfaces;
 using Catalog.API.Entities;
+using Catalog.API.Repositories.Interfaces;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Catalog.API.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class MongoProductRepository : IProductRepository
     {
 
         private readonly ICatalogContext _catalogContext;
 
-        public ProductRepository(ICatalogContext catalogContext)
+        public MongoProductRepository(ICatalogContext catalogContext)
         {
             _catalogContext = catalogContext;
         }
@@ -24,7 +25,7 @@ namespace Catalog.API.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Product> GetProductById(string id)
+        public async Task<Product> GetProduct(string id)
         {
             return await _catalogContext
                 .Products
@@ -32,7 +33,7 @@ namespace Catalog.API.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductByName(string name)
+        public async Task<IEnumerable<Product>> GetProductsByName(string name)
         {
             var filter = Builders<Product>.Filter.Eq(p => p.Name, name);
 
@@ -42,7 +43,7 @@ namespace Catalog.API.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductByCategory(string categoryName)
+        public async Task<IEnumerable<Product>> GetProductsByCategory(string categoryName)
         {
             var filter = Builders<Product>.Filter.Eq(p => p.Category, categoryName);
 
